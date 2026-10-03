@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hermes Agent - Aldisyah. Personal page and project index.">
+  <meta name="theme-color" content="#111110">
+  <title>Hermes Agent - Aldisyah</title>
+  <link rel="icon" type="image/png" href="hermes-logo.png">
+
+  <!-- Typography: High-performance font fallback with optional webfont enhancement -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- Palette & Design Tokens (Extracted directly from hermes-logo.png) --- */
+    :root {
+      --color-bg: #111110;
+      --color-bg-surface: #181715;
+      --color-bg-card: rgba(28, 27, 24, 0.7);
+      --color-bg-card-hover: rgba(36, 34, 31, 0.85);
+
+      --color-text-primary: #f4f1e7;     /* Warm ivory / parchment highlight */
+      --color-text-secondary: #c5c3bc;   /* Stone neutral */
+      --color-text-muted: #8d8a84;       /* Muted slate text */
+
+      --color-border-subtle: rgba(244, 241, 231, 0.08);
+      --color-border-card: rgba(244, 241, 231, 0.12);
+      --color-border-active: rgba(244, 241, 231, 0.28);
+
+      --color-status: #47704c;           /* Sage green status */
+      --color-accent-warm: #eeebe0;
+
+      --font-serif: "Newsreader", Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+
+      --max-width: 1080px;
+      --transition-base: 180ms ease-out;
+    }
+
+    /* --- Reset & Base Styles --- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text-primary);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.6;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+    }
+
+    /* Ambient atmospheric background pattern */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(244, 241, 231, 0.06), transparent 70%),
+        radial-gradient(circle at 90% 80%, rgba(71, 112, 76, 0.04), transparent 50%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Visible, accessible focus rings */
+    :focus-visible {
+      outline: 2px solid var(--color-text-primary);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* --- Header / Navigation Bar --- */
+    .site-header {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      border-bottom: 1px solid var(--color-border-subtle);
+      background: rgba(17, 17, 16, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.65rem;
+      background: rgba(244, 241, 231, 0.04);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-full);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      letter-spacing: 0.02em;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-status);
+      box-shadow: 0 0 6px rgba(71, 112, 76, 0.6);
+    }
+
+    .header-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* --- Main Container --- */
+    .site-main {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+
+    /* --- Hero Section --- */
+    .hero-section {
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      gap: 3rem;
+      padding-top: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero-section {
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 3.5rem;
+        padding-top: 2rem;
+      }
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .eyebrow-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .eyebrow-rule {
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--color-border-card);
+    }
+
+    .brand-title {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--color-text-primary);
+    }
+
+    .brand-tagline {
+      font-size: clamp(1rem, 1.4vw, 1.125rem);
+      line-height: 1.65;
+      color: var(--color-text-secondary);
+      max-width: 520px;
+    }
+
+    /* CTA / Actions */
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.875rem;
+      padding-top: 0.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: var(--color-text-primary);
+      color: #141311;
+      border: 1px solid var(--color-text-primary);
+    }
+
+    .btn-primary:hover {
+      background-color: #ffffff;
+      border-color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: rgba(244, 241, 231, 0.04);
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border-card);
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(244, 241, 231, 0.08);
+      border-color: var(--color-border-active);
+      transform: translateY(-1px);
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform var(--transition-base);
+    }
+
+    .btn:hover svg {
+      transform: translateX(2px);
+    }
+
+    /* --- Visual Mark (Unframed direct presentation) --- */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .hero-visual {
+        justify-content: flex-end;
+      }
+    }
+
+    .logo-img {
+      width: 100%;
+      height: auto;
+      max-width: 240px;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.45));
+      transition: transform var(--transition-base), filter var(--transition-base);
+    }
+
+    .logo-img:hover {
+      transform: scale(1.02);
+      filter: drop-shadow(0 20px 44px rgba(0, 0, 0, 0.55));
+    }
+
+    /* --- Capabilities / Specifications Section --- */
+    .specs-section {
+      border-top: 1px solid var(--color-border-subtle);
+      padding-top: 3rem;
+    }
+
+    .section-header {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      color: var(--color-text-primary);
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 640px) {
+      .specs-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .spec-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border-card);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color var(--transition-base), background-color var(--transition-base);
+    }
+
+    .spec-card:hover {
+      background: var(--color-bg-card-hover);
+      border-color: var(--color-border-active);
+    }
+
+    .spec-index {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    .spec-heading {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .spec-text {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.55;
+    }
+
+    /* --- Footer --- */
+    .site-footer {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      border-top: 1px solid var(--color-border-subtle);
+      background: rgba(17, 17, 16, 0.95);
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    @media (min-width: 640px) {
+      .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .footer-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* --- Reduced Motion --- */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Semantic Header Landmark -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="status-badge">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Online</span>
+      </div>
+      <span class="header-tag">Hermes Agent</span>
+    </div>
+  </header>
+
+  <!-- Semantic Main Landmark -->
+  <main class="site-main">
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="brand-heading">
+      <div class="hero-content">
+        <div class="eyebrow-label">
+          <span>Aldisyah</span>
+          <span class="eyebrow-rule" aria-hidden="true"></span>
+          <span>Developer</span>
+        </div>
+
+        <h1 id="brand-heading" class="brand-title">Hermes Agent - Aldisyah</h1>
+
+        <p class="brand-tagline">
+          Notes, projects, and experiments. Mostly agent tooling and developer workflows.
+        </p>
+
+        <div class="hero-actions">
+          <!-- TODO: replace with actual GitHub username URL -->
+          <a href="https://github.com/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <span>GitHub</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#specifications" class="btn btn-secondary">
+            <span>What I work on</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <img
+          src="hermes-logo.png"
+          alt="Hermes Agent logo"
+          class="logo-img"
+          width="240"
+          height="240"
+          loading="eager"
+          decoding="async"
+        >
+      </div>
+    </section>
+
+    <!-- Grounded System Capabilities Section -->
+    <section id="specifications" class="specs-section" aria-labelledby="specs-heading">
+      <div class="section-header">
+        <h2 id="specs-heading" class="section-title">What I work on</h2>
+      </div>
+
+      <!-- TODO: replace these three cards with your actual focus areas or projects -->
+      <div class="specs-grid">
+        <article class="spec-card">
+          <span class="spec-index" aria-hidden="true">01</span>
+          <h3 class="spec-heading">Agent tooling</h3>
+          <p class="spec-text">
+            Building and wiring up AI agents for day-to-day development work.
+          </p>
+        </article>
+
+        <article class="spec-card">
+          <span class="spec-index" aria-hidden="true">02</span>
+          <h3 class="spec-heading">Developer workflows</h3>
+          <p class="spec-text">
+            Scripts and small utilities that take the repetition out of a project.
+          </p>
+        </article>
+
+        <article class="spec-card">
+          <span class="spec-index" aria-hidden="true">03</span>
+          <h3 class="spec-heading">Side projects</h3>
+          <p class="spec-text">
+            Things I build to try an idea out. Most of them live on GitHub.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Semantic Footer Landmark -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>© 2026 Aldisyah</p>
+      <div class="footer-meta">
+        <span>Hermes Agent</span>
+        <span aria-hidden="true">·</span>
+        <span>GitHub Pages</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
